@@ -1,0 +1,29 @@
+{
+  // DADOS DA EMPRESA E DO CURSO
+    nome_do_curso: "INSIRA O NOME DO CURSO",
+    nome_instituicao: "INSIRA O NOME DA EMPRESA",
+    carga_horaria: "insira a carga horaria", // Exemplo "22 (vinte e duas) horas-aula"
+    cidade: "Insira o local de realizacao do curso", // "Brasilia/DF" sem acentos ou caracteres especiais
+    
+    // DATA DO INICIO DAS INSCRICOES
+    dia_inicio: 1,
+    mes_inicio: 1,
+    ano_inicio: 9999,
+
+    // DATA DO FIM DAS INSCRICOES
+    dia_fim: 31,
+    mes_fim: 12,
+    ano_fim: 9999,
+
+    // ARQUIVO COM OS DADOS DOS INSCRITOS
+    arquivo_inscricoes: "Inscritos.xlsx", 
+    
+    // NOME DA COLUNA QUE POSSUI O NOME DOS INSCRITOS
+    nome_coluna_inscritos: "Nome",
+
+    // NOME DA COLUNA QUE POSSUI O CPF DOS INSCRITOS
+    nome_coluna_cpf: "CPF",
+
+}
+
+

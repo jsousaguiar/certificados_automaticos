@@ -1,3 +1,10 @@
+# Arquivos sensíveis ignorados
+*.xlsx
+/certificados/*
+/.vscode/*
+*testes*
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,5 @@
+openpyxl
+docxtpl
+docx2pdf
+jinja2
+hjson
