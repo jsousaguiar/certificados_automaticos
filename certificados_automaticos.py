@@ -7,7 +7,14 @@ from datetime import date
 import logging
 import os
 import hjson
+import os.path
 
+###################################################################################################
+# CRIA PASTA PARA SALVAR OS CERTIFICADOS
+
+pasta = f"./certificados"
+if not os.path.isdir(pasta):  # verifica e cria a pasta "certificados", caso não exista
+    os.mkdir(pasta)
 
 ###################################################################################################
 # CONFIGURAÇÃO DE LOGS
@@ -86,10 +93,12 @@ nome_coluna_cpf = config_data.get("nome_coluna_cpf")
 ###################################################################################################
 # RENDERIZAÇÃO
 def gerar_certificado(inscrito: str, cpf):
-    # VARIÁVEIS PARA O CERTIFICADO
+    LOGGER.info(f"Gerando certificado de {inscrito}, CPF {cpf}...")
+
     arquivo_template = f"./modelo_certificado.docx"
     arquivo_destino = f"./certificados/certificado_{inscrito}.docx"
     template = DocxTemplate(arquivo_template)
+
     jinja_env = jinja2.Environment()
 
     context = {
@@ -115,19 +124,14 @@ def gerar_certificado(inscrito: str, cpf):
         f"./certificados/certificado_{inscrito}.pdf",
     )
     os.remove(f"./certificados/certificado_{inscrito}.docx")
-    LOGGER.info(f"Gerado certificado de {inscrito}")
 
 
-contagem = 0
-
-# for inscrito, cpf in inscritos[f"{nome_coluna_inscritos}"][f"{nome_coluna_cpf}"]:
-#     gerar_certificado(inscrito, cpf)
-#     contagem += 1
 index = 0
+
 for inscrito in inscritos["Nome"]:
     gerar_certificado(inscrito, inscritos["CPF"][index])
     index += 1
 
 LOGGER.info(
-    f"{'Foram' if contagem >1 else 'Foi'} gerado{'s' if contagem > 0 else ''} {contagem} certificado{'s' if contagem > 0 else ''}."
+    f"{'Foram' if index >1 else 'Foi'} gerado{'s' if index > 0 else ''} {index} certificado{'s' if index > 0 else ''}."
 )
