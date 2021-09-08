@@ -12,6 +12,7 @@ Para inserir o CPF no certificado, basta colocar a chave ```{{ cpf }}``` no loca
 Antes de executar o programa, faça as configurações em ```config.hjson``` e instale os requerimentos digitando o comando ```pip install -r requeriments.txt``` no terminal.
 
 
-<img width="561" alt="Screenshot_2" src="https://user-images.githubusercontent.com/68362578/132575581-27efae72-0569-456b-8aee-25c06edc50b5.png">
+<img width="561" alt="Screenshot_2" src="https://user-images.githubusercontent.com/68362578/132575581-27efae72-0569-456b-8aee-25c06edc50b5.png"> <img width="561" alt="Screenshot_3" src="https://user-images.githubusercontent.com/68362578/132576312-7c1b3c32-cf90-4739-98e6-145dfc007a39.png">
+
 
 
