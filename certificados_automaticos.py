@@ -89,8 +89,6 @@ mes_extenso = meses[(mes_fim) - 1]
 def formatar_cpf_cnpj_se_presente(cpf_cnpj: np.int64) -> str:
     if cpf_cnpj == 0:
         return ""
-    if str(cpf_cnpj) == np.nan:
-        return ""
     return f"{formatar_cpf_cnpj(cpf_cnpj)}"
 
 
@@ -99,6 +97,7 @@ def formatar_cpf_cnpj_se_presente(cpf_cnpj: np.int64) -> str:
 arquivo_inscricoes = config_data.get("arquivo_inscricoes")
 path = f"./{arquivo_inscricoes}"
 inscritos = pd.read_excel(path)
+inscritos = inscritos.fillna("")
 inscritos.to_dict(orient="records")
 nome_coluna_inscritos = config_data.get("nome_coluna_inscritos")
 nome_coluna_cpf = config_data.get("nome_coluna_cpf")
