@@ -8,6 +8,9 @@ import logging
 import os
 import hjson
 import os.path
+import numpy as np
+
+from cpf_cnpj import formatar_cpf_cnpj
 
 ###################################################################################################
 # CRIA PASTA PARA SALVAR OS CERTIFICADOS
@@ -79,6 +82,17 @@ data_fim = date(year=ano_fim, month=mes_fim, day=dia_fim)
 dias_de_curso = (data_fim - data_inicio).days
 mes_extenso = meses[(mes_fim) - 1]
 
+###################################################################################################
+# Formatar CPF/CNPJ
+
+
+def formatar_cpf_cnpj_se_presente(cpf_cnpj: np.int64) -> str:
+    if cpf_cnpj == 0:
+        return ""
+    if str(cpf_cnpj) == np.nan:
+        return ""
+    return f"{formatar_cpf_cnpj(cpf_cnpj)}"
+
 
 ###################################################################################################
 # IMPORTAR LISTA DE INSCRITOS
@@ -94,6 +108,9 @@ nome_coluna_cpf = config_data.get("nome_coluna_cpf")
 # RENDERIZAÇÃO
 def gerar_certificado(inscrito: str, cpf):
     LOGGER.info(f"Gerando certificado de {inscrito}, CPF {cpf}...")
+
+    # Formatar o CPF
+    cpf = formatar_cpf_cnpj_se_presente(cpf)
 
     arquivo_template = f"./modelo_certificado.docx"
     arquivo_destino = f"./certificados/certificado_{inscrito}.docx"
@@ -128,8 +145,9 @@ def gerar_certificado(inscrito: str, cpf):
 
 index = 0
 
-for inscrito in inscritos["Nome"]:
-    gerar_certificado(inscrito, inscritos["CPF"][index])
+for inscrito in inscritos[nome_coluna_inscritos]:
+    formatar_cpf_cnpj_se_presente(inscritos[nome_coluna_cpf][index])
+    gerar_certificado(inscrito, inscritos[nome_coluna_cpf][index])
     index += 1
 
 LOGGER.info(
