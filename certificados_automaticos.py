@@ -87,7 +87,7 @@ mes_extenso = meses[(mes_fim) - 1]
 
 
 def formatar_cpf_cnpj_se_presente(cpf_cnpj: np.int64) -> str:
-    if cpf_cnpj == 0:
+    if cpf_cnpj == 0 or cpf_cnpj == "":
         return ""
     return f"{formatar_cpf_cnpj(cpf_cnpj)}"
 

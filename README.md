@@ -7,7 +7,7 @@ O modelo do certificado deverá ser editado para inserir as informações de sua
 
 Todas as informações personalizadas como nome da empresa, nome do curso, data de início e fim devem ser editadas no arquivo ```config.hjson```, a exceção do logo da empresa, que deve ser inserido diretamente no certificado modelo ("modelo_certificado.docx").
 
-Retirar ou mudar o local do CPF no certificado, basta apagar ou colocar a chave ```{{ cpf }}``` no local desejado.
+Para retirar ou mudar o local do CPF no certificado, basta apagar ou colocar a chave ```{{ cpf }}``` no local desejado.
 
 Antes de executar o programa, faça as configurações em ```config.hjson``` e instale os requerimentos digitando o comando ```pip install -r requeriments.txt``` no terminal.
 
