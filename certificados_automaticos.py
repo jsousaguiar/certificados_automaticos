@@ -33,6 +33,9 @@ LOGGER = logging.getLogger("GERADOR DE CERTIFICADOS")
 
 ###################################################################################################
 # IMPORTANDO CONFIGURAÇÕES DO ARQUIVO config.hjson
+
+os.chdir( os.path.dirname(globals()["__file__"]) ) #RFSA
+
 config_data = {}
 if os.path.exists("config.hjson"):
     with open("config.hjson") as config_file:
@@ -99,26 +102,26 @@ path = f"./{arquivo_inscricoes}"
 inscritos = pd.read_excel(path)
 inscritos = inscritos.fillna("")
 inscritos.to_dict(orient="records")
-nome_coluna_inscritos = config_data.get("nome_coluna_inscritos")
+nome_coluna_nome = config_data.get("nome_coluna_nome")
 nome_coluna_cpf = config_data.get("nome_coluna_cpf")
 
 
 ###################################################################################################
 # RENDERIZAÇÃO
-def gerar_certificado(inscrito: str, cpf):
-    LOGGER.info(f"Gerando certificado de {inscrito}, CPF {cpf}...")
+def gerar_certificado(nome: str, cpf: str) -> bool:
+    LOGGER.info(f"Gerando certificado de {nome}, CPF {cpf}...")
 
     # Formatar o CPF
     cpf = formatar_cpf_cnpj_se_presente(cpf)
 
     arquivo_template = r"./modelo_certificado.docx"
-    arquivo_destino = f"./certificados/certificado_{inscrito}.docx"
+    arquivo_destino = f"./certificados/certificado_{nome}.docx"
     template = DocxTemplate(arquivo_template)
 
     jinja_env = jinja2.Environment()
 
     context = {
-        "nome_pessoa": inscrito,
+        "nome_pessoa": nome,
         "cpf": cpf,
         "nome_instituicao": nome_instituicao,
         "curso": nome_curso,
@@ -140,15 +143,37 @@ def gerar_certificado(inscrito: str, cpf):
         f"./certificados/certificado_{inscrito}.pdf",
     )
     os.remove(f"./certificados/certificado_{inscrito}.docx")
+    return True
 
+certificados = 0
+print()
+for (indice, inscrito) in inscritos.iterrows() :
+    nome = inscrito[nome_coluna_nome]
+    cpf = formatar_cpf_cnpj_se_presente( inscrito[nome_coluna_cpf] )
+    print(f"Gerando certificado para {nome}, CPF {cpf}...")
+    # certificados += 1 if gerar_certificado(nome, cpf) else 0
+print()
 
-index = 0
+"""
+def gerar_certificado(inscrito) : 
+    nome = inscrito[nome_coluna_nome]
+    cpf = formatar_cpf_cnpj_se_presente( inscrito[nome_coluna_cpf] )
+    print(f"Gerando certificado para {nome}, CPF {cpf}...")
+    # certificados += 1 if gerar_certificado(nome, cpf) else 0
+    return 0
 
-for inscrito in inscritos[nome_coluna_inscritos]:
-    formatar_cpf_cnpj_se_presente(inscritos[nome_coluna_cpf][index])
-    gerar_certificado(inscrito, inscritos[nome_coluna_cpf][index])
-    index += 1
+certificados = 0
+print()
+inscritos.apply(gerar_certificado, axis=1)
+print()
+"""
 
-LOGGER.info(
-    f"{'Foram' if index >1 else 'Foi'} gerado{'s' if index > 0 else ''} {index} certificado{'s' if index > 0 else ''}."
-)
+if certificados == 0 :
+    mensagem = "Não foram gerados certificados."
+elif certificados == 1 :
+    mensagem = "Foi gerado apenas um certificado."
+else :
+    mensagem = f"Foram gerados {certificados} certificados."
+
+LOGGER.info(mensagem)
+print()
