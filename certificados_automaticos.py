@@ -15,7 +15,7 @@ from cpf_cnpj import formatar_cpf_cnpj
 ###################################################################################################
 # CRIA PASTA PARA SALVAR OS CERTIFICADOS
 
-pasta = f"./certificados"
+pasta = r"./certificados"
 if not os.path.isdir(pasta):  # verifica e cria a pasta "certificados", caso não exista
     os.mkdir(pasta)
 
@@ -111,7 +111,7 @@ def gerar_certificado(inscrito: str, cpf):
     # Formatar o CPF
     cpf = formatar_cpf_cnpj_se_presente(cpf)
 
-    arquivo_template = f"./modelo_certificado.docx"
+    arquivo_template = r"./modelo_certificado.docx"
     arquivo_destino = f"./certificados/certificado_{inscrito}.docx"
     template = DocxTemplate(arquivo_template)
 
