@@ -19,7 +19,7 @@
     arquivo_inscricoes: "Inscritos.xlsx", 
     
     // NOME DA COLUNA QUE POSSUI O NOME DOS INSCRITOS
-    nome_coluna_inscritos: "Nome",
+    nome_coluna_nome: "Nome",
 
     // NOME DA COLUNA QUE POSSUI O CPF DOS INSCRITOS
     nome_coluna_cpf: "CPF",
