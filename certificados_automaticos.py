@@ -15,6 +15,8 @@ from cpf_cnpj import formatar_cpf_cnpj
 ###################################################################################################
 # CRIA PASTA PARA SALVAR OS CERTIFICADOS
 
+os.chdir(os.path.dirname(globals()["__file__"]))  # RFSA
+
 pasta = r"./certificados"
 if not os.path.isdir(pasta):  # verifica e cria a pasta "certificados", caso não exista
     os.mkdir(pasta)
@@ -33,8 +35,6 @@ LOGGER = logging.getLogger("GERADOR DE CERTIFICADOS")
 
 ###################################################################################################
 # IMPORTANDO CONFIGURAÇÕES DO ARQUIVO config.hjson
-
-os.chdir( os.path.dirname(globals()["__file__"]) ) #RFSA
 
 config_data = {}
 if os.path.exists("config.hjson"):
@@ -139,40 +139,28 @@ def gerar_certificado(nome: str, cpf: str) -> bool:
     template.save(arquivo_destino)
     template = None
     convert(
-        f"./certificados/certificado_{inscrito}.docx",
-        f"./certificados/certificado_{inscrito}.pdf",
+        f"./certificados/certificado_{nome}.docx",
+        f"./certificados/certificado_{nome}.pdf",
     )
-    os.remove(f"./certificados/certificado_{inscrito}.docx")
+    os.remove(f"./certificados/certificado_{nome}.docx")
     return True
+
 
 certificados = 0
 print()
-for (indice, inscrito) in inscritos.iterrows() :
+for (indice, inscrito) in inscritos.iterrows():
     nome = inscrito[nome_coluna_nome]
-    cpf = formatar_cpf_cnpj_se_presente( inscrito[nome_coluna_cpf] )
+    cpf = formatar_cpf_cnpj_se_presente(inscrito[nome_coluna_cpf])
     print(f"Gerando certificado para {nome}, CPF {cpf}...")
     certificados += 1 if gerar_certificado(nome, cpf) else 0
 print()
 
-"""
-def gerar_certificado(inscrito) : 
-    nome = inscrito[nome_coluna_nome]
-    cpf = formatar_cpf_cnpj_se_presente( inscrito[nome_coluna_cpf] )
-    print(f"Gerando certificado para {nome}, CPF {cpf}...")
-    # certificados += 1 if gerar_certificado(nome, cpf) else 0
-    return 0
 
-certificados = 0
-print()
-inscritos.apply(gerar_certificado, axis=1)
-print()
-"""
-
-if certificados == 0 :
+if certificados == 0:
     mensagem = "Não foram gerados certificados."
-elif certificados == 1 :
+elif certificados == 1:
     mensagem = "Foi gerado apenas um certificado."
-else :
+else:
     mensagem = f"Foram gerados {certificados} certificados."
 
 LOGGER.info(mensagem)
