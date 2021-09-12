@@ -108,7 +108,7 @@ nome_coluna_cpf = config_data.get("nome_coluna_cpf")
 
 ###################################################################################################
 # RENDERIZAÇÃO
-def gerar_certificado(nome: str, cpf: str) -> bool:
+def gerar_certificado(nome: str, cpf: np.int64) -> bool:
     LOGGER.info(f"Gerando certificado de {nome}, CPF {cpf}...")
 
     # Formatar o CPF
