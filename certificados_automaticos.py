@@ -15,7 +15,7 @@ from cpf_cnpj import formatar_cpf_cnpj
 ###################################################################################################
 # CRIA PASTA PARA SALVAR OS CERTIFICADOS
 
-os.chdir(os.path.dirname(globals()["__file__"]))  # RFSA
+os.chdir(os.path.dirname(globals()["__file__"]))
 
 pasta = r"./certificados"
 if not os.path.isdir(pasta):  # verifica e cria a pasta "certificados", caso não exista
@@ -108,11 +108,8 @@ nome_coluna_cpf = config_data.get("nome_coluna_cpf")
 
 ###################################################################################################
 # RENDERIZAÇÃO
-def gerar_certificado(nome: str, cpf: np.int64) -> bool:
-    LOGGER.info(f"Gerando certificado de {nome}, CPF {cpf}...")
-
-    # Formatar o CPF
-    cpf = formatar_cpf_cnpj_se_presente(cpf)
+def gerar_certificado(nome: str, cpf_formatado: str) -> bool:
+    LOGGER.info(f"Gerando certificado de {nome}, CPF {cpf_formatado}...")
 
     arquivo_template = r"./modelo_certificado.docx"
     arquivo_destino = f"./certificados/certificado_{nome}.docx"
@@ -122,7 +119,7 @@ def gerar_certificado(nome: str, cpf: np.int64) -> bool:
 
     context = {
         "nome_pessoa": nome,
-        "cpf": cpf,
+        "cpf": cpf_formatado,
         "nome_instituicao": nome_instituicao,
         "curso": nome_curso,
         "carga_horaria": carga_horaria,
@@ -150,9 +147,9 @@ certificados = 0
 print()
 for (indice, inscrito) in inscritos.iterrows():
     nome = inscrito[nome_coluna_nome]
-    cpf = formatar_cpf_cnpj_se_presente(inscrito[nome_coluna_cpf])
-    print(f"Gerando certificado para {nome}, CPF {cpf}...")
-    certificados += 1 if gerar_certificado(nome, cpf) else 0
+    numero_cpf = inscrito[nome_coluna_cpf]
+    cpf_formatado = formatar_cpf_cnpj_se_presente(numero_cpf)
+    certificados += 1 if gerar_certificado(nome, cpf_formatado) else 0
 print()
 
 
