@@ -151,7 +151,7 @@ for (indice, inscrito) in inscritos.iterrows() :
     nome = inscrito[nome_coluna_nome]
     cpf = formatar_cpf_cnpj_se_presente( inscrito[nome_coluna_cpf] )
     print(f"Gerando certificado para {nome}, CPF {cpf}...")
-    # certificados += 1 if gerar_certificado(nome, cpf) else 0
+    certificados += 1 if gerar_certificado(nome, cpf) else 0
 print()
 
 """
@@ -177,6 +177,3 @@ else :
 
 LOGGER.info(mensagem)
 print()
-
-"""
-"""
