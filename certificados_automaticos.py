@@ -17,7 +17,7 @@ from cpf_cnpj import formatar_cpf_cnpj
 
 os.chdir(os.path.dirname(globals()["__file__"]))
 
-pasta = r"./certificados"
+pasta = "./certificados"
 if not os.path.isdir(pasta):  # verifica e cria a pasta "certificados", caso não exista
     os.mkdir(pasta)
 
@@ -111,7 +111,7 @@ nome_coluna_cpf = config_data.get("nome_coluna_cpf")
 def gerar_certificado(nome: str, cpf_formatado: str) -> bool:
     LOGGER.info(f"Gerando certificado de {nome}, CPF {cpf_formatado}...")
 
-    arquivo_template = r"./modelo_certificado.docx"
+    arquivo_template = "./modelo_certificado.docx"
     arquivo_destino = f"./certificados/certificado_{nome}.docx"
     template = DocxTemplate(arquivo_template)
 
@@ -144,13 +144,11 @@ def gerar_certificado(nome: str, cpf_formatado: str) -> bool:
 
 
 certificados = 0
-print()
-for (indice, inscrito) in inscritos.iterrows():
+for (_indice, inscrito) in inscritos.iterrows():
     nome = inscrito[nome_coluna_nome]
     numero_cpf = inscrito[nome_coluna_cpf]
     cpf_formatado = formatar_cpf_cnpj_se_presente(numero_cpf)
     certificados += 1 if gerar_certificado(nome, cpf_formatado) else 0
-print()
 
 
 if certificados == 0:
@@ -161,4 +159,3 @@ else:
     mensagem = f"Foram gerados {certificados} certificados."
 
 LOGGER.info(mensagem)
-print()
